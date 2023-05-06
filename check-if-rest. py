@@ -1,0 +1,38 @@
+import requests
+
+# Define the base URL and endpoint to test
+base_url = "https://api.example.com"
+endpoint = "/users"
+
+# Send a GET request to the endpoint and inspect the response
+response = requests.get(base_url + endpoint)
+
+# Check the response status code
+if response.status_code != 200:
+    print("Endpoint does not comply with REST - invalid status code")
+    exit(1)
+
+# Check the response content type
+if response.headers["Content-Type"] != "application/json":
+    print("Endpoint does not comply with REST - invalid content type")
+    exit(1)
+
+# Check that the response contains a list of resources
+if not isinstance(response.json(), list):
+    print("Endpoint does not comply with REST - response should be a list")
+    exit(1)
+
+# Check that each resource in the response contains a unique ID
+resource_ids = set()
+for resource in response.json():
+    if "id" not in resource:
+        print("Endpoint does not comply with REST - resource has no ID")
+        exit(1)
+    resource_id = resource["id"]
+    if resource_id in resource_ids:
+        print("Endpoint does not comply with REST - duplicate resource ID")
+        exit(1)
+    resource_ids.add(resource_id)
+
+# If all checks pass, the endpoint complies with REST
+print("Endpoint complies with REST")
