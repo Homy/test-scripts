@@ -1,1 +1,1 @@
-# test-scripts
+This script works by first sending a GET request to the target website and parsing the response HTML to find all links to internal pages on the target website. It then sends GET requests to each detected endpoint and checks the status code of the response. If the status code is 500 or greater, the endpoint is considered to have a 5xx error and the URL and status code are printed to the console.
